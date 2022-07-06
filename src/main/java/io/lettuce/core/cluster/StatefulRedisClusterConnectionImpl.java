@@ -85,12 +85,12 @@ public class StatefulRedisClusterConnectionImpl<K, V> extends RedisChannelHandle
      * @param writer the channel writer
      * @param pushHandler the Cluster push handler
      * @param codec Codec used to encode/decode keys and values.
-     * @param timeout Maximum time to wait for a response.
+     * @param commandTimeout Maximum time to wait for a response, in another word, the command execution timeout.
      */
-    public StatefulRedisClusterConnectionImpl(RedisChannelWriter writer, ClusterPushHandler pushHandler, RedisCodec<K, V> codec,
-            Duration timeout) {
+    public StatefulRedisClusterConnectionImpl(RedisChannelWriter writer, ClusterPushHandler pushHandler,
+            RedisCodec<K, V> codec, Duration commandTimeout) {
 
-        super(writer, timeout);
+        super(writer, commandTimeout);
         this.pushHandler = pushHandler;
         this.codec = codec;
 

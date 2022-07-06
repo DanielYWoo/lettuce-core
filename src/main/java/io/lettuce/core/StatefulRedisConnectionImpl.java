@@ -68,12 +68,12 @@ public class StatefulRedisConnectionImpl<K, V> extends RedisChannelHandler<K, V>
      * @param writer the channel writer.
      * @param pushHandler the handler for push notifications.
      * @param codec Codec used to encode/decode keys and values.
-     * @param timeout Maximum time to wait for a response.
+     * @param commandTimeout Maximum time to wait for a response.
      */
     public StatefulRedisConnectionImpl(RedisChannelWriter writer, PushHandler pushHandler, RedisCodec<K, V> codec,
-            Duration timeout) {
+            Duration commandTimeout) {
 
-        super(writer, timeout);
+        super(writer, commandTimeout);
 
         this.pushHandler = pushHandler;
         this.codec = codec;

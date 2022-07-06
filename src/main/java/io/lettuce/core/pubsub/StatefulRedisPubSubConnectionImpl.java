@@ -53,12 +53,12 @@ public class StatefulRedisPubSubConnectionImpl<K, V> extends StatefulRedisConnec
      * @param endpoint the {@link PubSubEndpoint}
      * @param writer the writer used to write commands
      * @param codec Codec used to encode/decode keys and values.
-     * @param timeout Maximum time to wait for a response.
+     * @param commandTimeout Maximum time to wait for a response, in another word, command execution timeout.
      */
     public StatefulRedisPubSubConnectionImpl(PubSubEndpoint<K, V> endpoint, RedisChannelWriter writer, RedisCodec<K, V> codec,
-            Duration timeout) {
+            Duration commandTimeout) {
 
-        super(writer, endpoint, codec, timeout);
+        super(writer, endpoint, codec, commandTimeout);
 
         this.endpoint = endpoint;
     }

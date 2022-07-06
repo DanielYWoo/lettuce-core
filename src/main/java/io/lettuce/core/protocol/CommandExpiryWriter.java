@@ -163,9 +163,9 @@ public class CommandExpiryWriter implements RedisChannelWriter {
     @SuppressWarnings("unchecked")
     private void potentiallyExpire(RedisCommand<?, ?, ?> command, ScheduledExecutorService executors) {
 
-        long timeout = applyConnectionTimeout ? this.timeout : source.getTimeout(command);
+        long commandTimeout = applyConnectionTimeout ? this.timeout : source.getTimeout(command);
 
-        if (timeout <= 0) {
+        if (commandTimeout <= 0) {
             return;
         }
 
@@ -173,10 +173,10 @@ public class CommandExpiryWriter implements RedisChannelWriter {
 
             if (!command.isDone()) {
                 command.completeExceptionally(
-                        ExceptionFactory.createTimeoutException(Duration.ofNanos(timeUnit.toNanos(timeout))));
+                        ExceptionFactory.createTimeoutException(Duration.ofNanos(timeUnit.toNanos(commandTimeout))));
             }
 
-        }, timeout, timeUnit);
+        }, commandTimeout, timeUnit);
 
         if (command instanceof CompleteableCommand) {
             ((CompleteableCommand) command).onComplete((o, o2) -> {

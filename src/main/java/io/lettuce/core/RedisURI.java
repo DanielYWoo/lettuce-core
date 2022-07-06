@@ -235,6 +235,7 @@ public class RedisURI implements Serializable, ConnectionPoint {
 
     private boolean startTls = false;
 
+    // we should have connectionTimeout and commandTimeout instead of one vague timeout
     private Duration timeout = DEFAULT_TIMEOUT_DURATION;
 
     private final List<RedisURI> sentinels = new ArrayList<>();
@@ -551,7 +552,7 @@ public class RedisURI implements Serializable, ConnectionPoint {
     /**
      * Returns the command timeout for synchronous command execution.
      *
-     * @return the Timeout
+     * @return the command execution timeout
      * @since 5.0
      */
     public Duration getTimeout() {
@@ -730,7 +731,7 @@ public class RedisURI implements Serializable, ConnectionPoint {
         try {
             return URI.create(createUriString(false));
         } catch (Exception e) {
-            throw new IllegalStateException("Cannot render URI for " + toString(), e);
+            throw new IllegalStateException("Cannot render URI for " + this, e);
         }
     }
 
@@ -911,7 +912,7 @@ public class RedisURI implements Serializable, ConnectionPoint {
             }
         }
 
-        return queryPairs.stream().collect(Collectors.joining("&"));
+        return String.join("&", queryPairs);
     }
 
     private String getPortPart(int port, String scheme) {
@@ -1228,6 +1229,7 @@ public class RedisURI implements Serializable, ConnectionPoint {
 
         private boolean startTls = false;
 
+        // TODO: we should have two timeouts in future: commandTimeout and connTimeout
         private Duration timeout = DEFAULT_TIMEOUT_DURATION;
 
         private final List<RedisURI> sentinels = new ArrayList<>();
@@ -1676,7 +1678,7 @@ public class RedisURI implements Serializable, ConnectionPoint {
         public Builder withTimeout(Duration timeout) {
 
             LettuceAssert.notNull(timeout, "Timeout must not be null");
-            LettuceAssert.notNull(!timeout.isNegative(), "Timeout must be greater or equal 0");
+            LettuceAssert.assertState(!timeout.isNegative(), "Timeout must be greater or equal 0");
 
             this.timeout = timeout;
             return this;

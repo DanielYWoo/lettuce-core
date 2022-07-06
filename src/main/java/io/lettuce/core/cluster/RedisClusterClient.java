@@ -570,14 +570,14 @@ public class RedisClusterClient extends AbstractRedisClient {
      * @param channelWriter the channel writer
      * @param pushHandler the handler for push notifications
      * @param codec codec
-     * @param timeout default timeout
+     * @param commandTimeout default timeout
      * @param <K> Key-Type
      * @param <V> Value Type
      * @return new instance of StatefulRedisConnectionImpl
      */
     protected <K, V> StatefulRedisConnectionImpl<K, V> newStatefulRedisConnection(RedisChannelWriter channelWriter,
-            PushHandler pushHandler, RedisCodec<K, V> codec, Duration timeout) {
-        return new StatefulRedisConnectionImpl<>(channelWriter, pushHandler, codec, timeout);
+            PushHandler pushHandler, RedisCodec<K, V> codec, Duration commandTimeout) {
+        return new StatefulRedisConnectionImpl<>(channelWriter, pushHandler, codec, commandTimeout);
     }
 
     /**
@@ -693,14 +693,14 @@ public class RedisClusterClient extends AbstractRedisClient {
      * @param channelWriter the channel writer
      * @param pushHandler the handler for push notifications
      * @param codec codec
-     * @param timeout default timeout
+     * @param commandTimeout the command execution timeout
      * @param <K> Key-Type
      * @param <V> Value Type
      * @return new instance of StatefulRedisClusterConnectionImpl
      */
     protected <V, K> StatefulRedisClusterConnectionImpl<K, V> newStatefulRedisClusterConnection(
-            RedisChannelWriter channelWriter, ClusterPushHandler pushHandler, RedisCodec<K, V> codec, Duration timeout) {
-        return new StatefulRedisClusterConnectionImpl(channelWriter, pushHandler, codec, timeout);
+            RedisChannelWriter channelWriter, ClusterPushHandler pushHandler, RedisCodec<K, V> codec, Duration commandTimeout) {
+        return new StatefulRedisClusterConnectionImpl(channelWriter, pushHandler, codec, commandTimeout);
     }
 
     private <T, K, V> Mono<T> connect(Mono<SocketAddress> socketAddressSupplier, DefaultEndpoint endpoint,

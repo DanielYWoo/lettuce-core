@@ -84,16 +84,16 @@ public abstract class RedisChannelHandler<K, V> implements Closeable, Connection
 
     /**
      * @param writer the channel writer
-     * @param timeout timeout value
+     * @param commandTimeout command timeout value
      */
-    public RedisChannelHandler(RedisChannelWriter writer, Duration timeout) {
+    public RedisChannelHandler(RedisChannelWriter writer, Duration commandTimeout) {
 
         this.channelWriter = writer;
         this.clientResources = writer.getClientResources();
         this.tracingEnabled = clientResources.tracing().isEnabled();
 
         writer.setConnectionFacade(this);
-        setTimeout(timeout);
+        setTimeout(commandTimeout);
     }
 
     /**
@@ -124,15 +124,15 @@ public abstract class RedisChannelHandler<K, V> implements Closeable, Connection
     /**
      * Set the command timeout for this connection.
      *
-     * @param timeout Command timeout.
+     * @param commandTimeout Command timeout.
      * @since 5.0
      */
-    public void setTimeout(Duration timeout) {
+    public void setTimeout(Duration commandTimeout) {
 
-        LettuceAssert.notNull(timeout, "Timeout duration must not be null");
-        LettuceAssert.isTrue(!timeout.isNegative(), "Timeout duration must be greater or equal to zero");
+        LettuceAssert.notNull(commandTimeout, "Command timeout duration must not be null");
+        LettuceAssert.isTrue(!commandTimeout.isNegative(), "Command timeout duration must be greater or equal to zero");
 
-        this.timeout = timeout;
+        this.timeout = commandTimeout;
 
         RedisChannelWriter writer = channelWriter;
         if (writer instanceof CommandListenerWriter) {
@@ -140,7 +140,7 @@ public abstract class RedisChannelHandler<K, V> implements Closeable, Connection
         }
 
         if (writer instanceof CommandExpiryWriter) {
-            ((CommandExpiryWriter) writer).setTimeout(timeout);
+            ((CommandExpiryWriter) writer).setTimeout(commandTimeout);
         }
     }
 

@@ -46,9 +46,9 @@ public class StatefulRedisSentinelConnectionImpl<K, V> extends RedisChannelHandl
 
     private final SentinelConnectionState connectionState = new SentinelConnectionState();
 
-    public StatefulRedisSentinelConnectionImpl(RedisChannelWriter writer, RedisCodec<K, V> codec, Duration timeout) {
+    public StatefulRedisSentinelConnectionImpl(RedisChannelWriter writer, RedisCodec<K, V> codec, Duration commandTimeout) {
 
-        super(writer, timeout);
+        super(writer, commandTimeout);
 
         this.codec = codec;
         this.async = new RedisSentinelAsyncCommandsImpl<>(this, codec);

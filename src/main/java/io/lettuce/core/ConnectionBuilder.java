@@ -169,11 +169,17 @@ public class ConnectionBuilder {
         return socketAddressSupplier;
     }
 
+    /**
+     * @param timeout set the command execution timeout
+     */
     public ConnectionBuilder timeout(Duration timeout) {
         this.timeout = timeout;
         return this;
     }
 
+    /**
+     * @return the command execution timeout
+     */
     public Duration getTimeout() {
         return timeout;
     }

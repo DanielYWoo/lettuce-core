@@ -32,10 +32,10 @@ class StatefulRedisMasterReplicaConnectionImpl<K, V> extends StatefulRedisConnec
      *
      * @param writer the channel writer
      * @param codec Codec used to encode/decode keys and values.
-     * @param timeout Maximum time to wait for a response.
+     * @param commandTimeout Maximum time to wait for a response.
      */
-    StatefulRedisMasterReplicaConnectionImpl(MasterReplicaChannelWriter writer, RedisCodec<K, V> codec, Duration timeout) {
-        super(writer, NoOpPushHandler.INSTANCE, codec, timeout);
+    StatefulRedisMasterReplicaConnectionImpl(MasterReplicaChannelWriter writer, RedisCodec<K, V> codec, Duration commandTimeout) {
+        super(writer, NoOpPushHandler.INSTANCE, codec, commandTimeout);
     }
 
     @Override
